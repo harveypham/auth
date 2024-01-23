@@ -1,7 +1,8 @@
-Implement basic user authentication and profile
-==================================
+Basic user authentication
+=========================
 
-This template provides a REST API that's backed by an Amazon DynamoDB table.
+This micro service implement basic user authentication using Chalice framework and CDK for deployment.
+
 This application is deployed using the AWS CDK.
 
 For more information, see the `Deploying with the AWS CDK
