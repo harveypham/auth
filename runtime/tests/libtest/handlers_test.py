@@ -34,7 +34,7 @@ class UsersSpec(BaseSpec):
 
         with self.subTest("reset_password updates password"):
             new_password = "New password"
-            self._handler.reset_password(email, password, new_password)
+            self._handler.change_password(email, password, new_password)
             auth_resp = self._handler.authenticate(email, new_password)
             self.assertTrue("access_token" in auth_resp)
             claims = self._handler.verify_token(auth_resp["access_token"])

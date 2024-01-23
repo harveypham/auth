@@ -30,7 +30,7 @@ class Users:
         access_token = self._token_handler.generate(claims, 60) # TODO: add refresh_code as well
         return {"email": email, "access_token": access_token}
     
-    def reset_password(self, email:str, password: str, new_password: str):
+    def change_password(self, email:str, password: str, new_password: str):
         user = self._user_db.get_user(email)
         derived_key, _ = self._password_hash.derive_key(password, bytes(user["salt"]))
         if not compare_digest(derived_key, bytes(user["passcode"])):

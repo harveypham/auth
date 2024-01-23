@@ -1,0 +1,57 @@
+{
+    "name": "auth",
+    "description": "Basic user authentication",
+    "base_url": "https://auth.io",
+
+    "info": {
+        "contact": {
+            "name": "Harvey Pham",
+            "email": "hpham8@gmail.com"
+        }
+    },
+
+    "models": {
+        "auth": {
+            "description": "User credentials",
+            "fields": [
+                {"name": "email", "type": "string", "description": "User's mail"},
+                {"name": "password", "type": "string", "description": "User's password"}
+            ]
+        }
+    },
+
+    "resources": {
+        "auth": {
+            "path": "/",
+            "operations": [
+                {
+                    "method": "POST",
+                    "path": "register",
+                    "description": "Register new user",
+                    "parameters": [
+                        {"name": "email", "type": "string", "required": true, "description": "User's mail"},
+                        {"name": "password", "type": "string", "required": true, "description": "User's password"}
+                    ]
+                },
+                {
+                    "method": "POST",
+                    "path": "login",
+                    "description": "Login new user",
+                    "parameters": [
+                        {"name": "email", "type": "string", "required": true, "description": "User's mail"},
+                        {"name": "password", "type": "string", "required": true, "description": "User's password"}
+                    ]
+                },
+                {
+                    "method": "PUT",
+                    "path": "password",
+                    "description": "Change user password",
+                    "parameters": [
+                        {"name": "password", "type": "string", "required": true, "description": "User's current password"},
+                        {"name": "new_password", "type": "string", "required": true, "description": "User's new password"}
+                    ]
+                }
+            ]
+        }
+    }
+}

@@ -58,9 +58,9 @@ def user_email_from_token():
     return users.verify_token(app.current_request.headers.get("Authorization"))
 
 @app.route("/password", methods=["PUT"])
-def reset_password():
+def change_password():
     token = app.current_request.headers.get("Authorization")
     request = app.current_request.json_body
 
     claims = users.verify_token(token)
-    return users.reset_password(claims["sub"], **request)
+    return users.change_password(claims["sub"], **request)
