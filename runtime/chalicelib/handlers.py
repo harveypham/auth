@@ -19,27 +19,25 @@ class Users:
 
     def authenticate(self, email: str, password: str):
         user = self._user_db.get_user(email)
-        derived_key, _ = self._password_hash(password, user["salt"])
-        if not compare_digest(derived_key, user["passcode"]):
+        derived_key, _ = self._password_hash.derive_key(password, bytes(user["salt"]))
+        if not compare_digest(derived_key, bytes(user["passcode"])):
             raise UnauthorizedError()
         
         claims = {
-            "sub": email,
-            "aud": "app"
+            "sub": email
         }
 
-        access_code = self._token_handler.encode(claims) # TODO: add refresh_code as well
-        return {"access_code": access_code}
+        access_token = self._token_handler.generate(claims, 60) # TODO: add refresh_code as well
+        return {"email": email, "access_token": access_token}
     
-    def reset_password(self, email:str, old_password: str, new_password: str):
+    def reset_password(self, email:str, password: str, new_password: str):
         user = self._user_db.get_user(email)
-        derived_key, _ = self._password_hash(old_password, user["salt"])
-        if not compare_digest(derived_key, user["passcode"]):
+        derived_key, _ = self._password_hash.derive_key(password, bytes(user["salt"]))
+        if not compare_digest(derived_key, bytes(user["passcode"])):
             raise UnauthorizedError()
         
         derived_key, salt = self._password_hash.derive_key(new_password)
         self._user_db.update_user_crendentials(email, derived_key, salt)
-
 
     def verify_token(self, token: str):
         if token.startswith("Bearer "):

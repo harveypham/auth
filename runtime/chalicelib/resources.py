@@ -22,9 +22,11 @@ class UserDB:
         del user["SK"]
         return user
     
-    def update_user_crendentials(self, email:str, passcode: str, salt: str):
+    def update_user_crendentials(self, email:str, passcode: bytes, salt: bytes):
         key = {"PK": self.email_to_pk(email), "SK": "User"}
-        updates = {"passcode": passcode, "salt": salt}
+        updates = {
+            "passcode": {"Value": passcode,"Action": "PUT" },
+            "salt": {"Value": salt, "Action": "PUT"}}
         self._user_table.update_item(Key=key, AttributeUpdates=updates)
 
     @staticmethod
